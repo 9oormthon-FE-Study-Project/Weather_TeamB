@@ -23,7 +23,7 @@ export const fetchWeather = async (x, y) => {
 
   try {
     const response = await axios.get(
-      'https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst',
+      'https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst', 
       {
         params: {
           serviceKey:'l7F9H/Uh45pWfnjWKpd6N7OyHeazTbRzzqPgWUvEotU3EhDVbZTNFUUvR6p/cXoFcB0IuZlrR+T+xL/faSmKnA==',
