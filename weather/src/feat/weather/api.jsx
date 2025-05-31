@@ -27,6 +27,7 @@ export const fetchWeather = async (x, y) => {
         }
       }
     );
+    
 
     const data = response.data;
 
