@@ -1,61 +1,151 @@
+// src/feat/weather/list/WeatherList.jsx
 import React, { useState } from 'react';
 import { fetchWeather } from '../api';
+import locationMap from '../location';
 
 const WeatherList = () => {
-  const [x, setX] = useState('');
-  const [y, setY] = useState('');
-  const [weatherMap, setWeatherMap] = useState({});
+  const [selected, setSelected] = useState(null);
+  const [weatherData, setWeatherData] = useState({});
+  const [hourlyData, setHourlyData] = useState({});
+  const [search, setSearch] = useState('');
 
-  const handleFetch = async () => {
-    if (!x || !y) return alert("좌표를 입력하세요.");
+  const skyMap = {
+    '1': '맑음',
+    '3': '구름 많음',
+    '4': '흐림',
+  };
+
+  const ptyMap = {
+    '1': '비',
+    '2': '비/눈',
+    '3': '눈',
+    '4': '소나기',
+    '5': '빗방울',
+    '6': '빗방울/눈날림',
+    '7': '눈날림',
+  };
+
+  const getWindDirection = (degree) => {
+    const directions = [
+      "북풍", "북북동풍", "북동풍", "동북동풍",
+      "동풍", "동남동풍", "남동풍", "남남동풍",
+      "남풍", "남남서풍", "남서풍", "서남서풍",
+      "서풍", "서북서풍", "북서풍", "북북서풍",
+    ];
+    const idx = Math.round((Number(degree) % 360) / 22.5) % 16;
+    return directions[idx];
+  };
+
+  const handleSelect = async (region) => {
+    setSelected(region);
+    const coords = locationMap[region];
+    if (!coords) return;
+
     try {
-      const items = await fetchWeather(Number(x), Number(y));
-      const latestMap = {};
+      const items = await fetchWeather(coords.x, coords.y);
 
-      // 최신 fcstTime 기준으로 항목 하나씩만 저장
+      // 1. 가장 빠른 fcstTime의 데이터만 weatherData에 저장
+      const latest = {};
+      const hourly = {};
+
       items.forEach(item => {
-        const { category, fcstValue, fcstDate, fcstTime } = item;
+        const { category, fcstValue, fcstTime } = item;
 
-        // 이미 들어간 항목은 무시하거나 최신 시간 기준으로 비교 가능
-        if (!latestMap[category]) {
-          latestMap[category] = fcstValue;
+        // 현재 시각 기준으로 하나씩만 뽑기
+        if (!latest[category]) {
+          latest[category] = fcstValue;
         }
+
+        // 시간별로 모으기
+        if (!hourly[fcstTime]) hourly[fcstTime] = {};
+        hourly[fcstTime][category] = fcstValue;
       });
 
-      setWeatherMap(latestMap);
+      setWeatherData(latest);
+      setHourlyData(hourly);
     } catch (err) {
       console.error(err);
       alert("날씨 데이터를 불러오는 데 실패했습니다.");
     }
   };
 
-  return (
-    <div>
-      <h2>초단기 예보 (예측값)</h2>
-      <input
-        type="number"
-        placeholder="x 좌표"
-        value={x}
-        onChange={(e) => setX(e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="y 좌표"
-        value={y}
-        onChange={(e) => setY(e.target.value)}
-      />
-      <button onClick={handleFetch}>날씨 가져오기</button>
+  const filteredLocations = Object.keys(locationMap).filter(loc =>
+    loc.toLowerCase().includes(search.toLowerCase())
+  );
 
-      <div style={{ marginTop: '20px', lineHeight: '2' }}>
-        <div>기온 (°C): ({weatherMap.T1H ?? ''})</div>
-        <div>습도 (%): ({weatherMap.REH ?? ''})</div>
-        <div>1시간 강수량 (mm): ({weatherMap.RN1 ?? ''})</div>
-        <div>풍향 (deg): ({weatherMap.VEC ?? ''})</div>
-        <div>풍속 (m/s): ({weatherMap.WSD ?? ''})</div>
-        <div>하늘 상태 (SKY): ({weatherMap.SKY ?? ''})</div>
-        <div>강수 형태 (PTY): ({weatherMap.PTY ?? ''})</div>
-        <div>낙뢰 (kA): ({weatherMap.LGT ?? ''})</div>
-      </div>
+  return (
+    <div className="w-full max-w-md mx-auto py-6 px-4">
+      <h1 className="text-2xl font-bold mb-4">Weatherly</h1>
+
+      {!selected && (
+        <>
+          <input
+            type="text"
+            placeholder="지역 검색"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded mb-4"
+          />
+
+          <div className="space-y-2">
+            {filteredLocations.map(loc => (
+              <div
+                key={loc}
+                className="flex justify-between items-center p-3 bg-gray-100 rounded hover:bg-gray-200 cursor-pointer"
+                onClick={() => handleSelect(loc)}
+              >
+                <span>{loc}</span>
+                <span>→</span>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {selected && (
+        <div className="text-center mt-8">
+          <h2 className="text-xl mb-4 font-bold">{selected}</h2>
+          <p className="text-lg">현재 날씨</p>
+          <p>기온: {weatherData.T1H ?? '--'} °C</p>
+          <p>습도: {weatherData.REH ?? '--'} %</p>
+          <p>풍속: {weatherData.WSD ?? '--'} m/s</p>
+          {weatherData.VEC && (
+            <p>풍향: {getWindDirection(weatherData.VEC)} ({weatherData.VEC}°)</p>
+          )}
+          <p>하늘 상태: {skyMap[weatherData.SKY] ?? '--'}</p>
+          {weatherData.PTY && weatherData.PTY !== '0' && (
+            <p>강수 형태: {ptyMap[weatherData.PTY] ?? '강수 있음'}</p>
+          )}
+          {weatherData.RN1 && weatherData.RN1 !== '강수없음' && (
+            <p>1시간 강수량: {weatherData.RN1} mm</p>
+          )}
+
+          {/* 시간대별 예보 가로 스크롤 */}
+          <div className="mt-6 text-left">
+            <h3 className="font-semibold mb-2">시간대별 예보</h3>
+            <div className="overflow-x-auto whitespace-nowrap flex space-x-4 p-2 border-t">
+              {Object.entries(hourlyData).map(([time, data]) => (
+                <div key={time} className="min-w-[80px] text-center border rounded p-2 bg-gray-50">
+                  <div className="text-sm font-medium">{time.slice(0, 2)}시</div>
+                  <div className="text-lg">{data.T1H ?? '--'}°</div>
+                  <div className="text-sm">{skyMap[data.SKY] ?? '--'}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button
+            className="mt-6 px-4 py-2 bg-blue-500 text-white rounded"
+            onClick={() => {
+              setSelected(null);
+              setWeatherData({});
+              setHourlyData({});
+            }}
+          >
+            ← 돌아가기
+          </button>
+        </div>
+      )}
     </div>
   );
 };
