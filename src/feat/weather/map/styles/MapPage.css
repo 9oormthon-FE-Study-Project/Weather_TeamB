@@ -1,34 +1,93 @@
 :root {
-    --default-fill: #e5e7eb;
-    --selected-fill: #4f46e5;
-    --region-stroke: #6b7280;
+  --default-fill: #e5e7eb;
+  --hover-fill: #a5b4fc;
+  --selected-fill: #4f46e5;
+  --region-stroke: #6b7280;
+}
+
+.map-container {
+  padding: 16px;
+  text-align: center;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.region-guide {
+  background-color: #d1d5db;
+  border-radius: 30px;
+  padding: 12px 24px;
+  font-size: 16px;
+  margin-bottom: 12px;
+  border: none;
+}
+
+.region-name,
+.weather-info {
+  font-size: 16px;
+  margin-bottom: 4px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.weather-info {
+  margin-bottom: 16px;
+}
+
+.map-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 24px 0;
+}
+
+.map-svg {
+  padding: 20px;
+  margin-bottom: 16px;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  transition: fill 0.2s ease;
+}
+
+.error-text {
+  color: red;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+/* 모바일 대응 */
+@media (max-width: 480px) {
+  .title {
+    font-size: 20px;
   }
-  
-  .map-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 24px;
+
+  .region-guide {
+    font-size: 14px;
+    padding: 10px 20px;
   }
-  
-  .error-text {
-    color: red;
-    margin-top: 8px;
+
+  .region-name,
+  .weather-info {
     font-size: 14px;
   }
-  
-  .submit-button {
-    margin-top: 16px;
-    padding: 8px 16px;
-    font-size: 16px;
-    background-color: #4f46e5;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .submit-button:hover {
-    background-color: #4338ca;
-  }
-  
+}
