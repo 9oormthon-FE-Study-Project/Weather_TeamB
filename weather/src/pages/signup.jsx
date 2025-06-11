@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useLoginValidation } from "../hooks/useLoginValidation";
 
 
-//회원가입 page 화면 구현
+//회원가입 페이지 화면 구현
 const SignupPage = () => {
     const navigate = useNavigate();
     const { validateID, validatePassword } = useLoginValidation();
