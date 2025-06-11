@@ -1,3 +1,5 @@
+// 로그인한 사용자만 접근할수 있게 페이지 보호기능
+
 import React, { Children } from "react";
 import { Navigate } from "react-router";
 import useAuthStore from "../store/authStore";
