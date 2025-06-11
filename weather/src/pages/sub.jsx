@@ -2,7 +2,8 @@ import React from "react";
 import Button from "../components/button"; //공통된 요소 버튼 사용
 import { useNavigate } from "react-router"; //페이지 이동을 위한 useNavigate 훅 사용
 
-//sub page 화면 구현
+//서브페이지 화면 구현
+// 날씨 지도랑 목록으로 이동할수 있게하는 페이지
 const Subpage = () => {
   const navigate = useNavigate(); //useNavigate 훅을 사용하여 페이지 이동 기능을 활성화
   
