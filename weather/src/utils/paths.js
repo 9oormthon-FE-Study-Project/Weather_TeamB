@@ -1,4 +1,5 @@
-// 날씨 지도 데이터 path
+// 날씨 지도 데이터 path입니다.
+
 
 
 export const paths = [
