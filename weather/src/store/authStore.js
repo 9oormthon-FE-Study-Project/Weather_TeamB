@@ -14,7 +14,7 @@ const useAuthStore = create((set) => ({
             isLoggedIn: true,
             user: userData,
         })),
-    //로그아웃 처리하는 함수
+    //로그아웃 처리하는 함수입니다
     logout: () =>
         set(()=>({
             isLoggedIn: false,

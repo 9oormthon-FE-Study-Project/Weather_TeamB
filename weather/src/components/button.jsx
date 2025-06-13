@@ -1,3 +1,5 @@
+//공통된 버튼 요소
+
 import React from "react";
 
 const Button = ({ onClick,children,style}) =>{

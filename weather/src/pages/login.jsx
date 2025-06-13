@@ -6,7 +6,7 @@ import useAuthStore from "../store/authStore"; //로그인 상태를 관리하�
 import { useForm } from "react-hook-form";
 
 
-//로그인 page 화면 구현
+//로그인 페이지 화면 구현
 const LoginPage = () => {
   const navigate = useNavigate();
   const { validateID, validatePassword } = useLoginValidation();

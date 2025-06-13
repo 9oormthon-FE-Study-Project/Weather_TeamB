@@ -1,3 +1,4 @@
+//날씨 지도 부분 구현
 import React, {useState} from 'react'
 import { useForm} from 'react-hook-form'
 

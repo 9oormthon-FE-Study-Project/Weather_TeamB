@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../components/button"; //공통된 요소 버튼 사용
 import { useNavigate } from "react-router"; //페이지 이동을 위한 useNavigate 훅 사용
 
-//main page 화면 구현
+//메인페이지 화면 구현
 const Mainpage = () => {
   const navigate = useNavigate(); //useNavigate 훅을 사용하여 페이지 이동 기능을 활성화
   return (

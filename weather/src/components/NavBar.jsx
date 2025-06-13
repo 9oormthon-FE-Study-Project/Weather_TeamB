@@ -1,3 +1,6 @@
+// 네비게이션 바
+// 홈버튼이랑 되돌아가기 버튼 구현
+
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosHome } from "react-icons/io";
 
