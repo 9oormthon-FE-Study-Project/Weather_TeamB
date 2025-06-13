@@ -16,6 +16,7 @@ const SignupPage = () => {
       alert("회원가입 되었습니다.");
       navigate('/login'); // 회원가입 후 로그인 페이지로 이동
     };
+    //회원가입 저장가능하도록 코드 변경 에정
     
     //비밀번호 일치했을때, 확인용 값
     const password=watch("password");
