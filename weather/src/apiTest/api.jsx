@@ -26,20 +26,3 @@ export const fetchWeather = async (cityName) => {
     throw error;
   }
 };
-
-// export const fetchWeather = async() => {
-//   try {
-//     const response = await axios.get('https://weather-backend.up.railway.app/weather/by-city/ultra-forecast?city=서울특별시',{
-//     headers: {
-//       Authorization: TEMP_TOKEN,
-//       Accept: '*/*',
-//     },
-//   });
-
-//   // 응답 데이터 구조에 따라 변경 필요
-//     return response.data.items || response.data || [];
-//   } catch(error) {
-//     console.error('날씨 API 호출 실패:', error);
-//     throw error;
-//   }
-// }
