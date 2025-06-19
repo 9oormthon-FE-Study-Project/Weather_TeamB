@@ -1,11 +1,7 @@
-
 import axios from 'axios';
 
-
-//
-
-// ✅ 임시 토큰 (로그인 구현 전까지 하드코딩)
-const TEMP_TOKEN = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkQGdtYWlsLmNvbSIsImlhdCI6MTc1MDMyNjE2NywiZXhwIjoxNzUwMzI5NzY3fQ.lNcbeANGn4E958rt0XLolKW0caoNhGnKGJxgZr-2k3A';
+// 토큰
+const TOKEN = localStorage.getItem('token');
 
 // ✅ API base 주소
 const BASE_URL = 'https://weather-backend.up.railway.app';
@@ -18,7 +14,7 @@ export const fetchWeather = async (cityName) => {
         city: cityName,
       },
       headers: {
-        Authorization: TEMP_TOKEN,
+        Authorization: 'Bearer ' + TOKEN,
         Accept: '*/*',
       },
     });
