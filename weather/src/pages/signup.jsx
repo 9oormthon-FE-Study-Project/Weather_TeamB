@@ -3,6 +3,7 @@ import Button from "../components/button"; //공통된 요소 버튼 사용
 import { useNavigate, Link } from "react-router"; //페이지 이동을 위한 useNavigate 훅 사용
 import { useForm } from "react-hook-form";
 import { useLoginValidation } from "../hooks/useLoginValidation";
+import axios from 'axios';
 
 
 //회원가입 페이지 화면 구현
@@ -12,9 +13,25 @@ const SignupPage = () => {
     
     const { register, handleSubmit, watch ,formState: { errors } } = useForm();
 
-    const onSubmit = () => {
-      alert("회원가입 되었습니다.");
-      navigate('/login'); // 회원가입 후 로그인 페이지로 이동
+    const handleSignup = async (data) => {
+      try{
+        const response = await axios.post('https://weather-backend.up.railway.app/user/signup', {
+          email: data.id, // 아이디
+          password: data.password // 비밀번호
+        });
+        console.log(response.data);
+        alert("회원가입이 완료되었습니다.");
+        navigate("/login"); // 회원가입 후 로그인 페이지로 이동
+      }
+      catch (error) {
+        console.error("회원가입 실패:", error);
+        alert("회원가입에 실패하였습니다. 아이디와 비밀번호를 확인해주세요.");
+      }
+    };
+    // 회원가입 시도하는 코드
+
+    const onSubmit = (data) => {
+      handleSignup(data);
     };
     
     //비밀번호 일치했을때, 확인용 값

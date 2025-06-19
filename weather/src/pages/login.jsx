@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router"; //페이지 이동을 위한 u
 import { useLoginValidation } from "../hooks/useLoginValidation";
 import useAuthStore from "../store/authStore"; //로그인 상태를 관리하기 위한 Zustand 전역상태
 import { useForm } from "react-hook-form";
+import axios from 'axios';
 
 
 //로그인 페이지 화면 구현
@@ -18,12 +19,31 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm();
   
+  //api 요청을 통해 로그인 시도하는 함수
+  const handleLogin = async (data) => {
+    try{
+      const response = await axios.post('https://weather-backend.up.railway.app/user/login', {
+        email : data.id, // 아이디
+        password : data.password // 비밀번호
+      });
+      const {token} = response.data;
+      // 로그인 성공 시 토큰 저장
+      localStorage.setItem('token', token);
+      // 로그인 상태 업데이트
+      login({ id: data.id }); // 사용자 정보 저장
+      alert("로그인 성공하였습니다");
+      navigate("/sub"); // 서브 페이지로 이동
+    } catch (error) {
+      console.error("로그인 실패:", error);
+      alert("로그인에 실패하였습니다. 아이디와 비밀번호를 확인해주세요.");
 
+    }
+
+    
+  }
   // 로그인 시도하는 코드
   const onSubmit = (data) => {
-    login({ id: data.id }); // 사용자 정보 저장
-    alert("로그인 성공하였습니다");
-    navigate("/sub"); // 서브 페이지로 이동
+    handleLogin(data);
   };
 
   return (

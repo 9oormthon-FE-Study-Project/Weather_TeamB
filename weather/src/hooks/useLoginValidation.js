@@ -9,9 +9,9 @@
 export const useLoginValidation = () => {
   //ID 유효성검사
   //실패하면 에러메세지 반환
-  const validateID = (id) => {
+  const validateID = (email) => {
     const regex = /^[A-Za-z][A-Za-z0-9]{5,19}$/;
-    return regex.test(id) || "아이디는 영문자로 시작하며 6~20자여야 합니다.";
+    return regex.test(email) || "아이디는 영문자로 시작하며 6~20자여야 합니다.";
   };
 
   // 비밀번호 유효성검사
