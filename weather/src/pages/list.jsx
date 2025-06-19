@@ -38,21 +38,23 @@ const WeatherList = () => {
 
   const handleSelect = async (region) => {
     setSelected(region);
-    const coords = locationMap[region];
-    if (!coords) return;
 
     try {
-      const items = await fetchWeather(coords.x, coords.y);
+      const items = await fetchWeather(region);
       const latest = {};
       const hourly = {};
 
       items.forEach(item => {
-        const { category, fcstValue, fcstTime } = item;
+        const { category, value, fcstTime } = item;
+
+        // 가장 첫 항목만 latest에 저장
         if (!latest[category]) {
-          latest[category] = fcstValue;
+          latest[category] = value;
         }
+
+        // 시간별 예보 누적
         if (!hourly[fcstTime]) hourly[fcstTime] = {};
-        hourly[fcstTime][category] = fcstValue;
+        hourly[fcstTime][category] = value;
       });
 
       setWeatherData(latest);
@@ -62,6 +64,7 @@ const WeatherList = () => {
       alert("날씨 데이터를 불러오는 데 실패했습니다.");
     }
   };
+
 
   const handleBack = () => {
     setSelected(null);

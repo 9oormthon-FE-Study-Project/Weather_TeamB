@@ -13,6 +13,8 @@ import WeatherList from './pages/list.jsx'
 // 네비게이션 바 구현
 import NavBar from './components/NavBar.jsx';
 
+import WeatherTest from './apiTest/apiTest.jsx';
+
 
 
 
@@ -30,6 +32,8 @@ function App() {
            <Route path="/sub" element={<Subpage/>}/>
            <Route path="/map" element={<MapForm/>}/>
            <Route path="/list" element={<WeatherList/>}/>
+
+           <Route path="/test" element={<WeatherTest/>}/>
 
 
            {/* ProtectedRoute를 사용하여 로그인한 사용자만 접근할 수 있도록 설정 */}
