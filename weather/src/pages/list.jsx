@@ -121,7 +121,7 @@ const WeatherList = () => {
               <p>강수 형태: {ptyMap[weatherData.PTY] ?? '강수 있음'}</p>
             )}
             {weatherData.RN1 && weatherData.RN1 !== '강수없음' && (
-              <p>1시간 강수량: {weatherData.RN1} mm</p>
+              <p>1시간 강수량: {weatherData.RN1}</p>
             )}
 
             {/* 시간대별 예보 */}

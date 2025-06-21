@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-// 토큰
-const TOKEN = localStorage.getItem('token');
 
 // ✅ API base 주소
 const BASE_URL = 'https://weather-backend.up.railway.app';
 
 // ✅ 날씨 조회 API
 export const fetchWeather = async (cityName) => {
+  // 토큰
+  const TOKEN = localStorage.getItem('token');
   try {
     const response = await axios.get(`${BASE_URL}/weather/by-city/ultra-forecast`, {
       params: {
